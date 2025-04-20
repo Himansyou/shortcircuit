@@ -12,6 +12,7 @@ function App() {
   
   
   const id = localStorage.getItem("id"); 
+
   const getShortenedUrls = async () => {
     try {
       const response = await axios.get(`${backend}/byUser/${id}`); 
@@ -26,19 +27,23 @@ function App() {
     getShortenedUrls();
   }, [refresh]);
 
-  const handleShorten = () => {
-    axios.post(`${backend}/shorten`, {
+  const handleShorten = async () => {
+    try {
+   await axios.post(`${backend}/shorten`, {
       originalUrl: longUrl,
       userId: id, 
     }) 
     console.log("Shortening URL:", longUrl);
     setRefresh(refresh + 1);
-    setLongUrl('');
+    setLongUrl(''); }
+    catch (error) {
+      console.error("Error shortening URL:", error);
+    }
   };
 
   const deleteUrl = async (linkId) => {
     try {
-      await axios.delete(`http://localhost:8080/delete/${linkId}`);
+      await axios.delete(`${backend}/delete/${linkId}`); 
       setRefresh(refresh + 1); 
     } catch (error) {
       console.error("Error deleting URL:", error);
@@ -176,18 +181,19 @@ visit my GitHub
             <div>
               <h3 className="text-xl md:text-3xl font-bold mb-4 md:mb-6">Shortened URLs</h3>
               <div className="border border-teal-400/30 rounded-lg overflow-x-auto">
-                {/* Table for larger screens */}
+                {/* Table for laptops screens */}
                 <div className="hidden md:grid grid-cols-3 gap-6 bg-black border-b border-teal-400/30 p-4 font-medium">
                   <div>Short URL</div>
                   <div>Original URL</div>
                   <div>Visits</div>
                 </div>
 
-                {/* Table Content for larger screens */}
+                {/* Table Content for laptops screens */}
                 <div className="hidden md:block divide-y divide-teal-400/30">
                     {shortenedUrls.map((url, index) => (
                          <div key={index} className="grid grid-cols-[1fr_2fr_1fr_auto_auto] gap-8 items-center p-4">
-                         <div className="text-teal-400">{backend}/{url.shortUrl}</div>
+                         <a href={`${backend}/${url.shortUrl}`} target="_blank" rel="noopener noreferrer">
+                         <div className="text-teal-400">{backend}/{url.shortUrl}</div> </a>
                          <div className="truncate">{url.originalUrl}</div>
                          <div className='ml-24'>{url.count}</div>
                          <div className="flex gap-2 justify-end">
@@ -216,7 +222,8 @@ visit my GitHub
                     <div key={index} className="p-4">
                       <div className="flex justify-between mb-2">
                         <span className="font-medium">Short URL:</span>
-                        <span className="text-teal-400">{backend}/{url.shortUrl}</span>
+                        <a href={`${backend}/${url.shortUrl}`} target="_blank" rel="noopener noreferrer">
+                        <span className="text-teal-400">{backend}/{url.shortUrl}</span></a>
                       </div>
                       <div className="mb-2">
                         <span className="font-medium">Original URL:</span>
@@ -224,6 +231,12 @@ visit my GitHub
                       </div>
                       <div className="flex justify-between">
                         <span className="font-medium">Visits:    {url.count}</span>
+                        <button
+                             onClick={() => deleteUrl(url.id)}
+                             className="bg-red-500 text-white px-4 py-2 ml-35 rounded hover:bg-red-400 transition-colors"
+                           >
+                             Delete
+                           </button>
                         <button className="bg-teal-400 text-black font-medium px-4 py-2 rounded-lg hover:bg-teal-300 transition-colors"
                           onClick={() => navigator.clipboard.writeText(`${backend}/${url.shortUrl}`)} >
                           Copy
