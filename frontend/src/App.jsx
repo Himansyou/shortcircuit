@@ -233,11 +233,11 @@ visit my GitHub
                         <span className="font-medium">Visits:    {url.count}</span>
                         <button
                              onClick={() => deleteUrl(url.id)}
-                             className="bg-red-500 text-white px-4 py-2 ml-35 rounded hover:bg-red-400 transition-colors"
+                             className="bg-red-500 text-white px-2 py-1 h-9 ml-33 mt-2 mr-4 rounded hover:bg-red-400 transition-colors"
                            >
                              Delete
                            </button>
-                        <button className="bg-teal-400 text-black font-medium px-4 py-2 rounded-lg hover:bg-teal-300 transition-colors"
+                        <button className="bg-teal-400 text-black font-medium px-2.5 py-1 h-9  mt-2  rounded hover:bg-teal-300 transition-colors"
                           onClick={() => navigator.clipboard.writeText(`${backend}/${url.shortUrl}`)} >
                           Copy
                         </button>
