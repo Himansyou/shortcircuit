@@ -4,7 +4,7 @@ Short-Circuit is a full-stack URL shortening app that allows users to create sho
 
 ## 📸 Demo
 
-![Short-Circuit Screenshot](https://github.com/user-attachments/assets/4c3320be-0476-4818-90cf-b61e0c084220) <!-- You can upload a screenshot and link here -->
+![Short-Circuit Screenshot](https://github.com/user-attachments/assets/4c3320be-0476-4818-90cf-b61e0c084220) 
 
 ## 🌐 Live Preview
 
